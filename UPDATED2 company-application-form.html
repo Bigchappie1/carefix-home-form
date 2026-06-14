@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Company Application Form</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #0D1B2A;
+    --gold:   #C9952A;
+    --gold-lt:#E8B84B;
+    --offwht: #F7F4EE;
+    --mid:    #4A5568;
+    --light:  #E2E0D8;
+    --red:    #C0392B;
+    --green:  #27AE60;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--offwht);
+    color: var(--navy);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  header {
+    background: var(--navy);
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 18px,
+      rgba(201,149,42,.06) 18px,
+      rgba(201,149,42,.06) 19px
+    );
+  }
+  .logo-mark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    color: #fff;
+    letter-spacing: .08em;
+    line-height: 1;
+    position: relative;
+  }
+  .logo-mark span { color: var(--gold); }
+  header p {
+    color: rgba(255,255,255,.6);
+    font-size: .85rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    margin-top: 8px;
+    position: relative;
+  }
+  .gold-bar {
+    width: 56px; height: 3px;
+    background: var(--gold);
+    margin: 18px auto 0;
+    position: relative;
+  }
+
+  /* ── TAB SWITCHER ── */
+  .tab-wrap {
+    display: flex;
+    max-width: 680px;
+    margin: 36px auto 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--light);
+    background: #fff;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 16px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: .92rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    background: #fff;
+    color: var(--mid);
+    transition: background .25s, color .25s;
+  }
+  .tab-btn.active {
+    background: var(--navy);
+    color: var(--gold);
+  }
+  .tab-btn:first-child { border-right: 2px solid var(--light); }
+
+  /* ── FORM CARD ── */
+  .form-wrap {
+    max-width: 680px;
+    margin: 28px auto 60px;
+    padding: 0 16px;
+  }
+  .form-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--light);
+    padding: 36px 32px 40px;
+    box-shadow: 0 4px 24px rgba(13,27,42,.07);
+    display: none;
+  }
+  .form-card.active { display: block; }
+
+  .section-eyebrow {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: .05em;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .section-sub {
+    font-size: .84rem;
+    color: var(--mid);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  /* divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 20px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--light);
+  }
+  .divider span {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    white-space: nowrap;
+  }
+
+  /* fields */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .field-row.full { grid-template-columns: 1fr; }
+  @media (max-width: 520px) { .field-row { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; }
+  label {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  label .req { color: var(--gold); margin-left: 2px; }
+
+  input, select, textarea {
+    font-family: 'Inter', sans-serif;
+    font-size: .9rem;
+    color: var(--navy);
+    background: var(--offwht);
+    border: 1.5px solid var(--light);
+    border-radius: 8px;
+    padding: 11px 14px;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,149,42,.15);
+    background: #fff;
+  }
+  textarea { resize: vertical; min-height: 90px; }
+  select { appearance: none; cursor: pointer; }
+
+  /* checkbox group */
+  .check-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--offwht);
+    border: 1.5px solid var(--light);
+    border-radius: 8px;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    font-size: .83rem;
+    font-weight: 500;
+    color: var(--navy);
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--gold-lt); background: #fff; }
+  .check-item input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--gold);
+    flex-shrink: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+  .check-item.checked {
+    border-color: var(--gold);
+    background: rgba(201,149,42,.08);
+  }
+
+  /* radio row */
+  .radio-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .radio-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--offwht);
+    border: 1.5px solid var(--light);
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-size: .84rem;
+    font-weight: 500;
+    transition: border-color .2s, background .2s;
+    user-select: none;
+  }
+  .radio-item:hover { border-color: var(--gold-lt); }
+  .radio-item input[type="radio"] {
+    accent-color: var(--gold);
+    width: 15px; height: 15px;
+    padding: 0; background: none; border: none; box-shadow: none;
+  }
+  .radio-item.checked { border-color: var(--gold); background: rgba(201,149,42,.08); }
+
+  /* submit */
+  .submit-btn {
+    width: 100%;
+    margin-top: 28px;
+    padding: 16px;
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    letter-spacing: .12em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .2s, transform .1s;
+  }
+  .submit-btn:hover { background: #1a3045; }
+  .submit-btn:active { transform: scale(.99); }
+
+  /* success */
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .success-msg .icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+  .success-msg h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: .06em;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .success-msg p { color: var(--mid); font-size: .9rem; line-height: 1.6; }
+
+  /* progress bar */
+  .progress-wrap { margin-bottom: 28px; }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--light);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-lt));
+    border-radius: 4px;
+    transition: width .4s ease;
+  }
+
+  /* notice */
+  .notice {
+    background: rgba(201,149,42,.1);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: .82rem;
+    color: var(--navy);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  .error-field {
+  border-color: var(--red) !important;
+  box-shadow: 0 0 0 3px rgba(192,57,43,.15) !important;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">CAREFIX <span>HOME</span></div>
+  <p>Professional Referral Network — USA</p>
+  <div class="gold-bar"></div>
+</header>
+
+<!-- TAB SWITCHER -->
+<div class="tab-wrap">
+  <button class="tab-btn active" onclick="switchTab('client')">👤 I Need a Professional</button>
+  <button class="tab-btn" onclick="switchTab('worker')">🔧 I Am a Professional</button>
+</div>
+
+<div class="form-wrap">
+
+  <!-- ══════════════════════════════════════
+       CLIENT FORM
+  ══════════════════════════════════════ -->
+  <div class="form-card active" id="client-form">
+    <div class="section-eyebrow">Client Application</div>
+    <div class="section-title">Find Your Perfect Professional</div>
+    <div class="section-sub">Fill out this short form and we will match you with the best verified professional for your job — usually within 24 hours.</div>
+
+    <div class="notice">⏱ This form takes less than 5 minutes to complete. All fields marked <span style="color:var(--gold)">*</span> are required.</div>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Form Progress</span><span id="client-pct">0%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="client-bar" style="width:0%"></div></div>
+    </div>
+
+    <div id="client-fields">
+
+      <!-- PERSONAL INFO -->
+      <div class="divider"><span>Personal Information</span></div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" placeholder="John" required oninput="updateProgress('client')" />
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" placeholder="Smith" required oninput="updateProgress('client')" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+                    <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" id="client-phone" placeholder="(555) 000-0000" maxlength="14" required oninput="formatPhone(this); updateProgress('client')" />
+        </div>
+        <div class="field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" placeholder="john@email.com" required oninput="updateProgress('client')" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>City <span class="req">*</span></label>
+          <input type="text" placeholder="Los Angeles" required oninput="updateProgress('client')" />
+        </div>
+        <div class="field">
+          <label>State <span class="req">*</span></label>
+          <select required onchange="updateProgress('client')">
+            <option value="">Select State</option>
+            <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+            <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+            <option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+            <option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option>
+            <option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option>
+            <option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+            <option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option>
+            <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option>
+            <option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+            <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
+            <option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option>
+            <option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option>
+            <option>Wisconsin</option><option>Wyoming</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field">
+          <label>Full Property Address <span class="req">*</span></label>
+          <input type="text" placeholder="123 Main Street, City, State, ZIP" required oninput="updateProgress('client')" />
+        </div>
+      </div>
+
+      <!-- CLIENT TYPE -->
+      <div class="divider"><span>Client Type</span></div>
+
+      <div class="field">
+        <label>I Am A <span class="req">*</span></label>
+        <div class="radio-group" id="client-type-group">
+          <label class="radio-item" onclick="selectRadio(this,'client-type-group')">
+            <input type="radio" name="clienttype" value="homeowner" /> Homeowner
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'client-type-group')">
+            <input type="radio" name="clienttype" value="investor" /> Real Estate Investor
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'client-type-group')">
+            <input type="radio" name="clienttype" value="landlord" /> Landlord / Property Manager
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'client-type-group')">
+            <input type="radio" name="clienttype" value="developer" /> Property Developer
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'client-type-group')">
+            <input type="radio" name="clienttype" value="family" /> Family / Personal
+          </label>
+        </div>
+      </div>
+
+      <!-- SERVICE NEEDED -->
+      <div class="divider"><span>Service Needed</span></div>
+
+      <div class="field" style="margin-bottom:16px">
+        <label>Select All Services You Need <span class="req">*</span></label>
+        <div class="check-group">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="handyman" /> Handyman</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="lawn" /> Lawn Service</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="cleaning" /> House Cleaning</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="plumber" /> Plumber</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="electrician" /> Electrician</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="babysitter" /> Babysitter</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="painting" /> House Painting</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="ac" /> Air Conditioning</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="contractor" /> General Contractor</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="pool" /> Pool Cleaner</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="landscape" /> Landscaping</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="appliance" /> Appliance Repair</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="nanny" /> Nanny</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="petsitter" /> Pet Sitter</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="tree" /> Tree Service</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="dentist" /> Dentist</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="roofer" /> Roofer</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="tutor" /> Tutor</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="fence" /> Fence Builder</label>
+        </div>
+      </div>
+
+      <!-- JOB DETAILS -->
+      <div class="divider"><span>Job Details</span></div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Job Type <span class="req">*</span></label>
+          <select required onchange="updateProgress('client')">
+            <option value="">Select One</option>
+            <option>One-Time Job</option>
+            <option>Recurring Service</option>
+            <option>Full Renovation / Build</option>
+            <option>Emergency Repair</option>
+            <option>Ongoing Maintenance</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Estimated Budget <span class="req">*</span></label>
+          <select required onchange="updateProgress('client')">
+            <option value="">Select Range</option>
+            <option>Under $500</option>
+            <option>$500 – $1,000</option>
+            <option>$1,000 – $5,000</option>
+            <option>$5,000 – $10,000</option>
+            <option>$10,000 – $50,000</option>
+            <option>$50,000+</option>
+            <option>Not Sure Yet</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Preferred Start Date <span class="req">*</span></label>
+          <input type="date" required oninput="updateProgress('client')" />
+        </div>
+        <div class="field">
+          <label>Best Time To Contact <span class="req">*</span></label>
+          <select required onchange="updateProgress('client')">
+            <option value="">Select Time</option>
+            <option>Morning (8am – 12pm)</option>
+            <option>Afternoon (12pm – 5pm)</option>
+            <option>Evening (5pm – 8pm)</option>
+            <option>Anytime</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field">
+          <label>Describe Your Job In Detail <span class="req">*</span></label>
+          <textarea placeholder="Please describe exactly what needs to be done, any special instructions, size of the property, urgency level, etc." oninput="updateProgress('client')"></textarea>
+        </div>
+      </div>
+
+      <!-- HOW DID YOU HEAR -->
+      <div class="divider"><span>Almost Done</span></div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>How Did You Hear About Us?</label>
+          <select>
+            <option value="">Select One</option>
+            <option>Friend or Family Referral</option>
+            <option>Google Search</option>
+            <option>Social Media</option>
+            <option>Real Estate Agent</option>
+            <option>Flyer / Advertisement</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Preferred Contact Method</label>
+          <select>
+            <option>Phone Call</option>
+            <option>Text Message</option>
+            <option>Email</option>
+            <option>Any</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field">
+          <label>Additional Notes or Questions</label>
+          <textarea placeholder="Anything else you would like us to know..."></textarea>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitForm('client')">SUBMIT MY APPLICATION →</button>
+    </div>
+
+    <div class="success-msg" id="client-success">
+      <div class="icon">✅</div>
+      <h2>Application Received!</h2>
+      <p>Thank you for trusting us with your job.<br>Our team is already reviewing your application and will contact you shortly to confirm your match.<br><br><strong>Welcome to the family!</strong></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       WORKER FORM
+  ══════════════════════════════════════ -->
+  <div class="form-card" id="worker-form">
+    <div class="section-eyebrow">Worker Application</div>
+    <div class="section-title">Join Our Professional Network</div>
+    <div class="section-sub">Apply today and start receiving consistent job referrals across the United States. We bring the clients — you bring the skills.</div>
+
+    <div class="notice">⏱ This form takes less than 5 minutes to complete. All fields marked <span style="color:var(--gold)">*</span> are required.</div>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Form Progress</span><span id="worker-pct">0%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="worker-bar" style="width:0%"></div></div>
+    </div>
+
+    <div id="worker-fields">
+
+      <!-- PERSONAL INFO -->
+      <div class="divider"><span>Personal Information</span></div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" placeholder="Maria" required oninput="updateProgress('worker')" />
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" placeholder="Johnson" required oninput="updateProgress('worker')" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+                    <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" id="worker-phone" placeholder="(555) 000-0000" maxlength="14" required oninput="formatPhone(this); updateProgress('worker')" />
+        </div>
+        <div class="field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" placeholder="maria@email.com" required oninput="updateProgress('worker')" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>City <span class="req">*</span></label>
+          <input type="text" placeholder="Houston" required oninput="updateProgress('worker')" />
+        </div>
+        <div class="field">
+          <label>State <span class="req">*</span></label>
+          <select required onchange="updateProgress('worker')">
+            <option value="">Select State</option>
+            <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+            <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+            <option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+            <option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option>
+            <option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option>
+            <option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+            <option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option>
+            <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option>
+            <option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+            <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
+            <option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option>
+            <option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option>
+            <option>Wisconsin</option><option>Wyoming</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field">
+                    <label>Home ZIP Code <span class="req">*</span></label>
+          <input type="text" id="worker-zip" placeholder="77001" maxlength="5" 
+                 required oninput="formatZip(this); updateProgress('worker')" />
+        </div>
+      </div>
+
+      <!-- TRADE INFO -->
+      <div class="divider"><span>Trade & Skills</span></div>
+
+      <div class="field">
+        <label>Select All Services You Offer <span class="req">*</span></label>
+        <div class="check-group">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="handyman" /> Handyman</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="lawn" /> Lawn Service</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="cleaning" /> House Cleaning</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="plumber" /> Plumber</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="electrician" /> Electrician</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="babysitter" /> Babysitter</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="painting" /> House Painting</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="ac" /> Air Conditioning</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="contractor" /> General Contractor</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="pool" /> Pool Cleaner</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="landscape" /> Landscaping</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="appliance" /> Appliance Repair</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="nanny" /> Nanny</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="petsitter" /> Pet Sitter</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="tree" /> Tree Service</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="dentist" /> Dentist</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="roofer" /> Roofer</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="tutor" /> Tutor</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="fence" /> Fence Builder</label>
+        </div>
+      </div>
+
+      <div class="field-row" style="margin-top:16px">
+        <div class="field">
+          <label>Years of Experience <span class="req">*</span></label>
+          <select required onchange="updateProgress('worker')">
+            <option value="">Select</option>
+            <option>Less than 1 year</option>
+            <option>1 – 3 years</option>
+            <option>3 – 5 years</option>
+            <option>5 – 10 years</option>
+            <option>10+ years</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>License / Certification</label>
+          <select>
+            <option value="">Select</option>
+            <option>Yes — Fully Licensed</option>
+            <option>Yes — Certified but not Licensed</option>
+            <option>In Progress</option>
+            <option>No — but Experienced</option>
+            <option>Not Required for My Trade</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- AVAILABILITY -->
+      <div class="divider"><span>Availability</span></div>
+
+      <div class="field" style="margin-bottom:16px">
+        <label>Days Available Per Week <span class="req">*</span></label>
+        <div class="check-group">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="mon" /> Monday</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="tue" /> Tuesday</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="wed" /> Wednesday</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="thu" /> Thursday</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="fri" /> Friday</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="sat" /> Saturday</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="sun" /> Sunday</label>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Hours Available Per Day <span class="req">*</span></label>
+          <select onchange="updateProgress('worker')">
+            <option value="">Select</option>
+            <option>2 – 4 Hours</option>
+            <option>4 – 6 Hours</option>
+            <option>6 – 8 Hours</option>
+            <option>Full Day (8+ Hours)</option>
+            <option>Flexible</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Willing to Travel? <span class="req">*</span></label>
+          <select required onchange="updateProgress('worker')">
+            <option value="">Select</option>
+            <option>Yes — Anywhere in the USA</option>
+            <option>Yes — Within My State</option>
+            <option>Yes — Within 50 Miles</option>
+            <option>Local Only</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- BACKGROUND -->
+      <div class="divider"><span>Background & References</span></div>
+
+      <div class="field" style="margin-top:16px">
+        <label>
+  Are You Comfortable With a Background Check?
+  <span class="req">*</span>
+  <br>
+  <small style="color:var(--gold);font-weight:600;">
+    (This will aid more future opportunities)
+  </small>
+</label>
+        <div class="radio-group" id="bg-group">
+          <label class="radio-item" onclick="selectRadio(this,'bg-group')"><input type="radio" name="bgcheck" value="yes" /> Yes, Absolutely</label>
+          <label class="radio-item" onclick="selectRadio(this,'bg-group')"><input type="radio" name="bgcheck" value="no" /> No</label>
+        </div>
+      </div>
+
+<div id="background-verification-section" style="display:none;margin-top:20px;">
+
+  <div class="notice">
+    To proceed with background verification, please upload a valid government-issued ID or Driver's License and provide your electronic signature below.
+  </div>
+
+  <div class="field-row full">
+    <div class="field">
+      <label>
+        Upload Valid ID / Driver's License
+        <span class="req">*</span>
+      </label>
+
+      <input
+  type="file"
+  id="verification-id"
+  accept=".jpg,.jpeg,.png,.pdf"
+  onchange="showUploadedFile()"
+/>
+
+<div id="uploaded-file-info" style="display:none;margin-top:10px;">
+  <small id="uploaded-file-name"></small>
+
+  <button
+    type="button"
+    onclick="removeUploadedFile()"
+    style="
+      margin-left:10px;
+      padding:4px 10px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+    "
+  >
+    Remove
+  </button>
+</div>
+    </div>
+  </div>
+
+<small style="color:var(--mid);">
+Accepted formats: JPG, PNG, PDF. Maximum file size: 10MB.
+</small>
+
+  <div class="field-row full">
+    <div class="field">
+      <label>
+        Electronic Signature (Full Legal Name)
+        <span class="req">*</span>
+      </label>
+
+      <input
+        type="text"
+        id="electronic-signature"
+        placeholder="Enter your full legal name"
+      />
+    </div>
+  </div>
+
+<div class="field" style="margin-top:16px;">
+  <label class="check-item">
+    <input type="checkbox" id="signature-consent">
+    I certify that the information provided is accurate and that my electronic signature is legally binding.
+  </label>
+</div>
+
+</div>
+      <div class="field-row full">
+        <div class="field">
+          <label>Tell Us About Yourself & Your Experience <span class="req">*</span></label>
+          <textarea placeholder="Describe your skills, past jobs, tools you own, and why you would be a great fit for our network..." oninput="updateProgress('worker')"></textarea>
+        </div>
+      </div>
+
+<div class="field-row full" style="margin-top:16px">
+        <div class="field">
+          <label>Reference Name & Phone Number</label>
+          <input type="text" placeholder="Full name and phone number of someone who can vouch for your work" />
+        </div>
+      </div>
+      
+      <!-- PAYMENT METHOD -->
+      <div class="divider"><span>Payment Method</span></div>
+
+      <div class="field">
+        <label>Preferred Payment Method <span class="req">*</span></label>
+        <div class="radio-group" id="payment-group">
+          <label class="radio-item" onclick="selectRadio(this,'payment-group')">
+            <input type="radio" name="payment" value="ACH" /> ACH Direct Deposit
+          </label>
+          <label class="radio-item" onclick="selectRadio(this,'payment-group')">
+            <input type="radio" name="payment" value="Paycheck" /> Paycheck / Check
+          </label>
+        </div>
+      </div>
+
+      <div class="field-row" style="margin-top:16px">
+        <div class="field">
+          <label>Bank Name <span class="req">*</span></label>
+          <input type="text" placeholder="Chase Bank" oninput="updateProgress('worker')" />
+        </div>
+        <div class="field">
+          <label>Account First Name <span class="req">*</span></label>
+          <input type="text" placeholder="Maria" oninput="updateProgress('worker')" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Account Last Name <span class="req">*</span></label>
+          <input type="text" placeholder="Johnson" oninput="updateProgress('worker')" />
+        </div>
+        <div class="field">
+          <label>Routing Number <span class="req">*</span></label>
+          <input type="text" placeholder="123456789" maxlength="9" oninput="updateProgress('worker')" />
+        </div>
+      </div>
+
+      <div class="field-row full">
+        <div class="field">
+          <label>Account Number <span class="req">*</span></label>
+          <input type="text" placeholder="9876543210" oninput="updateProgress('worker')" />
+        </div>
+      </div>
+      
+      <!-- FINAL -->
+      <div class="divider"><span>Final Step</span></div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>How Did You Hear About Us?</label>
+          <select>
+            <option value="">Select One</option>
+            <option>Friend or Coworker</option>
+            <option>Social Media</option>
+            <option>Google Search</option>
+            <option>Flyer / Advertisement</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Expected Pay Rate</label>
+          <select>
+            <option value="">Select Range</option>
+            <option>$15 – $25 / hour</option>
+            <option>$25 – $40 / hour</option>
+            <option>$40 – $75 / hour</option>
+            <option>$75+ / hour</option>
+            <option>Depends on the Job</option>
+            <option>Open to Discussion</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitForm('worker')">SUBMIT MY APPLICATION →</button>
+    </div>
+
+    <div class="success-msg" id="worker-success">
+      <div class="icon">🎉</div>
+      <h2>Welcome To The Team!</h2>
+      <p>Your application has been received.<br>Our team will review your profile and reach out to you soon with your first job opportunities.<br><br><strong>Get ready — we are about to keep you busy!</strong></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(type) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => {
+      b.classList.toggle('active', (i===0 && type==='client') || (i===1 && type==='worker'));
+    });
+    document.getElementById('client-form').classList.toggle('active', type==='client');
+    document.getElementById('worker-form').classList.toggle('active', type==='worker');
+  }
+
+  // Auto-format US phone number: (XXX) XXX-XXXX
+  function formatPhone(input) {
+    let value = input.value.replace(/\D/g, ''); // Remove all non-digits
+    
+    if (value.length > 10) {
+      value = value.substring(0, 10);
+    }
+    
+    if (value.length >= 7) {
+      value = '(' + value.substring(0,3) + ') ' + value.substring(3,6) + '-' + value.substring(6);
+    } else if (value.length >= 4) {
+      value = '(' + value.substring(0,3) + ') ' + value.substring(3);
+    } else if (value.length >= 1) {
+      value = '(' + value.substring(0,3);
+    }
+    
+    input.value = value;
+  }
+  
+      // ZIP Code - numbers only
+  function formatZip(input) {
+    let value = input.value.replace(/\D/g, '');
+    if (value.length > 10) {
+      value = value.substring(0, 10);
+    }
+    input.value = value;
+  }
+  
+  function toggleCheck(el) {
+    el.classList.toggle('checked', el.querySelector('input').checked);
+    setTimeout(() => el.classList.toggle('checked', el.querySelector('input').checked), 0);
+  }
+
+  function selectRadio(el, groupId) {
+
+  document
+    .querySelectorAll('#' + groupId + ' .radio-item')
+    .forEach(r => r.classList.remove('checked'));
+
+  setTimeout(() => {
+
+    if (el.querySelector('input').checked) {
+      el.classList.add('checked');
+    }
+
+    const radio = el.querySelector('input');
+
+    if (radio.name === 'bgcheck') {
+
+      const verificationSection =
+        document.getElementById('background-verification-section');
+
+      if (radio.value === 'yes' && radio.checked) {
+
+        verificationSection.style.display = 'block';
+
+      } else {
+
+        verificationSection.style.display = 'none';
+
+      }
+    }
+
+  }, 0);
+}
+
+  function updateProgress(type) {
+    const card = document.getElementById(type+'-form');
+    const inputs = card.querySelectorAll('input[type="text"], input[type="tel"], input[type="email"], input[type="date"], select, textarea');
+    let filled = 0;
+    inputs.forEach(inp => { if(inp.value && inp.value.trim() !== '') filled++; });
+    const pct = Math.min(100, Math.round((filled / inputs.length) * 100));
+    document.getElementById(type+'-bar').style.width = pct+'%';
+    document.getElementById(type+'-pct').textContent = pct+'%';
+  }
+
+function showUploadedFile() {
+
+  const fileInput =
+    document.getElementById('verification-id');
+
+  const fileInfo =
+    document.getElementById('uploaded-file-info');
+
+  const fileName =
+    document.getElementById('uploaded-file-name');
+
+  if (fileInput.files.length > 0) {
+
+    fileName.textContent =
+      fileInput.files[0].name;
+
+    fileInfo.style.display = 'block';
+  }
+}
+
+function removeUploadedFile() {
+
+  const fileInput =
+    document.getElementById('verification-id');
+
+  const fileInfo =
+    document.getElementById('uploaded-file-info');
+
+  fileInput.value = '';
+
+  fileInfo.style.display = 'none';
+}
+
+  function submitForm(type) {
+
+  const card = document.getElementById(type + '-form');
+  let valid = true;
+
+  card.querySelectorAll('.error-field').forEach(el => {
+    el.classList.remove('error-field');
+  });
+
+  const requiredFields = card.querySelectorAll('[required]');
+
+  requiredFields.forEach(field => {
+
+    if (field.type === 'radio') return;
+
+    if (!field.value.trim()) {
+      field.classList.add('error-field');
+      valid = false;
+    }
+
+  });
+
+  const radioNames = new Set();
+
+  card.querySelectorAll('input[type="radio"][required]')
+      .forEach(radio => radioNames.add(radio.name));
+
+  radioNames.forEach(name => {
+
+    const selected = card.querySelector(
+      `input[name="${name}"]:checked`
+    );
+
+    if (!selected) {
+      valid = false;
+    }
+
+  });
+
+  if (!valid) {
+    alert('Please complete all required fields.');
+    return;
+  }
+
+  const url =
+'https://script.google.com/macros/s/AKfycbz9JGkFYYCcTYOIS76bIl-a4x35mTv4icKy40Y_68bIRv_sgO3VRws3Mp_rL_OoeZ68/exec';
+
+fetch(url, {
+  method: 'POST',
+  body: JSON.stringify({
+    type: type
+  })
+})
+.then(() => {
+
+  alert('Success!');
+
+})
+.catch(error => {
+
+  alert('Submission failed.');
+
+  console.log(error);
+
+});
+}
+</script>
+</body>
+</html>
