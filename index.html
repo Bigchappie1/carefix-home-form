@@ -858,8 +858,21 @@ Accepted formats: JPG, PNG, PDF. Maximum file size: 10MB.
       </div>
       
       <!-- PAYMENT METHOD -->
-      <div class="divider"><span>Payment Method</span></div>
-
+      <div class="divider"><span>Payment Method</span></<div class="field">
+        
+          <label>Expected Pay Rate</label>
+          <select>
+            <option value="">Select Range</option>
+            <option>$15 – $25 / hour</option>
+            <option>$25 – $40 / hour</option>
+            <option>$40 – $75 / hour</option>
+            <option>$75+ / hour</option>
+            <option>Depends on the Job</option>
+            <option>Open to Discussion</option>
+          </select>
+        </div>
+      </div>  
+      
       <div class="field">
         <label>Preferred Payment Method <span class="req">*</span></label>
         <div class="radio-group" id="payment-group">
@@ -916,19 +929,6 @@ Accepted formats: JPG, PNG, PDF. Maximum file size: 10MB.
             <option>Other</option>
           </select>
         </div>
-        <div class="field">
-          <label>Expected Pay Rate</label>
-          <select>
-            <option value="">Select Range</option>
-            <option>$15 – $25 / hour</option>
-            <option>$25 – $40 / hour</option>
-            <option>$40 – $75 / hour</option>
-            <option>$75+ / hour</option>
-            <option>Depends on the Job</option>
-            <option>Open to Discussion</option>
-          </select>
-        </div>
-      </div>
 
       <button class="submit-btn" onclick="submitForm('worker')">SUBMIT MY APPLICATION →</button>
     </div>
