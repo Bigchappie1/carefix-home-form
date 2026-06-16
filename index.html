@@ -856,11 +856,11 @@ Accepted formats: JPG, PNG, PDF. Maximum file size: 10MB.
           <input type="text" placeholder="Full name and phone number of someone who can vouch for your work" />
         </div>
       </div>
-      
-      <!-- PAYMENT METHOD -->
-      <div class="divider"><span>Payment Method</span></<div class="field">
 
-        
+      <!-- PAYMENT METHOD -->
+      <div class="divider"><span>Payment Method</span></div>
+
+          <div class="field-row full" style="margin-bottom:16px;">
         <div class="field">
           <label>Expected Pay Rate</label>
           <select>
@@ -873,30 +873,61 @@ Accepted formats: JPG, PNG, PDF. Maximum file size: 10MB.
             <option>Open to Discussion</option>
           </select>
         </div>
-      </div>  
-      
+      </div>
+
       <div class="field">
         <label>Preferred Payment Method <span class="req">*</span></label>
-        <div class="radio-group" id="payment-group">
-          <label class="radio-item" onclick="selectRadio(this,'payment-group')">
-            <input type="radio" name="payment" value="ACH" /> ACH Direct Deposit
-          </label>
-          <label class="radio-item" onclick="selectRadio(this,'payment-group')">
-            <input type="radio" name="payment" value="Paycheck" /> Paycheck / Check
-          </label>
+        <select id="payment-method-select" onchange="handlePaymentMethod(this.value)" required>
+          <option value="">Select Payment Method</option>
+          <option value="ACH">ACH Direct Deposit</option>
+          <option value="Paycheck">Paycheck / Check</option>
+        </select>
+      </div>
+
+      <!-- ACH Section -->
+      <div id="ach-section" style="display:none; margin-top:16px;">
+        <div class="field-row full">
+          <div class="field">
+            <label>Bank Name <span class="req">*</span></label>
+            <input type="text" id="ach-bank-name" placeholder="e.g. Chase Bank" />
+          </div>
+        </div>
+        <div class="field" style="margin-top:16px;">
+          <label>Is Your Bank ACH Enabled? <span class="req">*</span></label>
+          <small style="display:block; color:var(--mid); margin-bottom:8px; font-size:.78rem;">
+            💡 Kindly check your mobile bank app to confirm if your account is ACH enabled.
+          </small>
+          <div class="radio-group" id="ach-enabled-group">
+            <label class="radio-item" onclick="selectRadio(this,'ach-enabled-group')">
+              <input type="radio" name="ach-enabled" value="yes" /> Yes
+            </label>
+            <label class="radio-item" onclick="selectRadio(this,'ach-enabled-group')">
+              <input type="radio" name="ach-enabled" value="no" /> No
+            </label>
+          </div>
         </div>
       </div>
 
-      <div class="field-row" style="margin-top:16px">
-        <div class="field">
-          <label>Bank Name <span class="req">*</span></label>
-          <input type="text" placeholder="Chase Bank" oninput="updateProgress('worker')" />
+      <!-- Paycheck Section -->
+      <div id="paycheck-section" style="display:none; margin-top:16px;">
+        <div class="field-row full">
+          <div class="field">
+            <label>Bank Name <span class="req">*</span></label>
+            <input type="text" id="paycheck-bank-name" placeholder="e.g. Wells Fargo" />
+          </div>
         </div>
+        <div class="field-row full" style="margin-top:16px;">
+          <div class="field">
+            <label>Full Name on Account <span class="req">*</span></label>
+            <input type="text" id="paycheck-account-name" placeholder="e.g. Maria Johnson" />
+          </div>
+        </div>
+      </div>
       
       <!-- FINAL -->
       <div class="divider"><span>Final Step</span></div>
 
-      <div class="field-row">
+      <div class="field-row full">
         <div class="field">
           <label>How Did You Hear About Us?</label>
           <select>
@@ -908,6 +939,8 @@ Accepted formats: JPG, PNG, PDF. Maximum file size: 10MB.
             <option>Other</option>
           </select>
         </div>
+      
+      </div>
 
       <button class="submit-btn" onclick="submitForm('worker')">SUBMIT MY APPLICATION →</button>
     </div>
@@ -1039,72 +1072,117 @@ function removeUploadedFile() {
   fileInfo.style.display = 'none';
 }
 
-  function submitForm(type) {
-
-  const card = document.getElementById(type + '-form');
-  let valid = true;
-
-  card.querySelectorAll('.error-field').forEach(el => {
-    el.classList.remove('error-field');
-  });
-
-  const requiredFields = card.querySelectorAll('[required]');
-
-  requiredFields.forEach(field => {
-
-    if (field.type === 'radio') return;
-
-    if (!field.value.trim()) {
-      field.classList.add('error-field');
-      valid = false;
-    }
-
-  });
-
-  const radioNames = new Set();
-
-  card.querySelectorAll('input[type="radio"][required]')
-      .forEach(radio => radioNames.add(radio.name));
-
-  radioNames.forEach(name => {
-
-    const selected = card.querySelector(
-      `input[name="${name}"]:checked`
-    );
-
-    if (!selected) {
-      valid = false;
-    }
-
-  });
-
-  if (!valid) {
-    alert('Please complete all required fields.');
-    return;
+  function handlePaymentMethod(value) {
+    document.getElementById('ach-section').style.display = value === 'ACH' ? 'block' : 'none';
+    document.getElementById('paycheck-section').style.display = value === 'Paycheck' ? 'block' : 'none';
+    updateProgress('worker');
   }
 
-  const url =
-'https://script.google.com/macros/s/AKfycbz9JGkFYYCcTYOIS76bIl-a4x35mTv4icKy40Y_68bIRv_sgO3VRws3Mp_rL_OoeZ68/exec';
+    function submitForm(type) {
+    const card = document.getElementById(type + '-form');
+    let valid = true;
 
-fetch(url, {
-  method: 'POST',
-  body: JSON.stringify({
-    type: type
-  })
-})
-.then(() => {
+    card.querySelectorAll('.error-field').forEach(el => {
+      el.classList.remove('error-field');
+    });
 
-  alert('Success!');
+    const requiredFields = card.querySelectorAll('[required]');
+    requiredFields.forEach(field => {
+      if (field.type === 'radio') return;
+      if (!field.value.trim()) {
+        field.classList.add('error-field');
+        valid = false;
+      }
+    });
 
-})
-.catch(error => {
+    const radioNames = new Set();
+    card.querySelectorAll('input[type="radio"][required]')
+        .forEach(radio => radioNames.add(radio.name));
+    radioNames.forEach(name => {
+      const selected = card.querySelector(`input[name="${name}"]:checked`);
+      if (!selected) valid = false;
+    });
 
-  alert('Submission failed.');
+    if (!valid) {
+      alert('Please complete all required fields.');
+      return;
+    }
 
-  console.log(error);
+    const url = 'https://script.google.com/macros/s/AKfycbzn9-7M1jnLeairV47gAdHeEgWymZb2zX0Y4emm_Ck6quCfJmPoCWKen_zZAJW9Ahls/exec';
 
-});
-}
+    let payload = { type: type };
+
+    if (type === 'client') {
+      const clientCard = document.getElementById('client-fields');
+      const inputs = clientCard.querySelectorAll('input, select, textarea');
+
+      payload.firstName       = document.querySelector('#client-fields input[placeholder="John"]').value;
+      payload.lastName        = document.querySelector('#client-fields input[placeholder="Smith"]').value;
+      payload.phone           = document.getElementById('client-phone').value;
+      payload.email           = document.querySelector('#client-fields input[type="email"]').value;
+      payload.city            = document.querySelector('#client-fields input[placeholder="Los Angeles"]').value;
+      payload.state           = document.querySelector('#client-fields select[required]').value;
+      payload.address         = document.querySelector('#client-fields input[placeholder="123 Main Street, City, State, ZIP"]').value;
+      payload.clientType      = document.querySelector('input[name="clienttype"]:checked')?.value || '';
+      payload.services        = [...document.querySelectorAll('#client-fields input[type="checkbox"]:checked')].map(c => c.value).join(', ');
+      payload.jobType         = document.querySelectorAll('#client-fields select[required]')[1]?.value || '';
+      payload.budget          = document.querySelectorAll('#client-fields select[required]')[2]?.value || '';
+      payload.startDate       = document.querySelector('#client-fields input[type="date"]').value;
+      payload.contactTime     = document.querySelectorAll('#client-fields select[required]')[3]?.value || '';
+      payload.jobDescription  = document.querySelectorAll('#client-fields textarea')[0].value;
+      payload.hearAboutUs     = document.querySelectorAll('#client-fields select')[4]?.value || '';
+      payload.contactMethod   = document.querySelectorAll('#client-fields select')[5]?.value || '';
+      payload.additionalNotes = document.querySelectorAll('#client-fields textarea')[1]?.value || '';
+    }
+
+    if (type === 'worker') {
+      payload.firstName         = document.querySelector('#worker-fields input[placeholder="Maria"]').value;
+      payload.lastName          = document.querySelector('#worker-fields input[placeholder="Johnson"]').value;
+      payload.phone             = document.getElementById('worker-phone').value;
+      payload.email             = document.querySelector('#worker-fields input[type="email"]').value;
+      payload.city              = document.querySelector('#worker-fields input[placeholder="Houston"]').value;
+      payload.state             = document.querySelector('#worker-fields select[required]').value;
+      payload.zip               = document.getElementById('worker-zip').value;
+      payload.services          = [...document.querySelectorAll('#worker-fields .check-group input[type="checkbox"]:checked')].map(c => c.value).join(', ');
+      payload.experience        = document.querySelectorAll('#worker-fields select[required]')[1]?.value || '';
+      payload.license           = document.querySelectorAll('#worker-fields select')[2]?.value || '';
+      payload.daysAvailable     = [...document.querySelectorAll('#worker-fields input[value="mon"], #worker-fields input[value="tue"], #worker-fields input[value="wed"], #worker-fields input[value="thu"], #worker-fields input[value="fri"], #worker-fields input[value="sat"], #worker-fields input[value="sun"]')].filter(c => c.checked).map(c => c.value).join(', ');
+      payload.hoursPerDay       = document.querySelectorAll('#worker-fields select')[3]?.value || '';
+      payload.travel            = document.querySelectorAll('#worker-fields select[required]')[2]?.value || '';
+      payload.backgroundCheck   = document.querySelector('input[name="bgcheck"]:checked')?.value || '';
+      payload.signature         = document.getElementById('electronic-signature')?.value || '';
+      payload.about             = document.querySelector('#worker-fields textarea').value;
+      payload.reference         = document.querySelector('#worker-fields input[placeholder="Full name and phone number of someone who can vouch for your work"]').value;
+      payload.payRate           = document.querySelectorAll('#worker-fields select')[5]?.value || '';
+      payload.paymentMethod     = document.getElementById('payment-method-select').value;
+      payload.bankName          = document.getElementById('ach-bank-name')?.value || document.getElementById('paycheck-bank-name')?.value || '';
+      payload.achEnabled        = document.querySelector('input[name="ach-enabled"]:checked')?.value || '';
+      payload.fullNameOnAccount = document.getElementById('paycheck-account-name')?.value || '';
+      payload.hearAboutUs       = document.querySelectorAll('#worker-fields select')[6]?.value || '';
+    }
+
+    const submitBtn = card.querySelector('.submit-btn');
+    submitBtn.textContent = 'SUBMITTING...';
+    submitBtn.disabled = true;
+
+    fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      document.getElementById(type + '-fields').style.display = 'none';
+      card.querySelector('.submit-btn').style.display = 'none';
+      document.getElementById(type + '-success').style.display = 'block';
+    })
+    .catch(error => {
+      alert('Submission failed. Please try again.');
+      submitBtn.textContent = 'SUBMIT MY APPLICATION →';
+      submitBtn.disabled = false;
+      console.log(error);
+    });
+  }
 </script>
 </body>
 </html>
