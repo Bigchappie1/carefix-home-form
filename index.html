@@ -1108,7 +1108,8 @@ function removeUploadedFile() {
       return;
     }
 
-    const url = 'https://script.google.com/macros/s/AKfycbzn9-7M1jnLeairV47gAdHeEgWymZb2zX0Y4emm_Ck6quCfJmPoCWKen_zZAJW9Ahls/exec';
+        const url = 'https://script.google.com/macros/s/AKfycbyCBNV6SzgH2_iHOhHBx-q3FYbUsz3VP1l-nFTgDbcCjO0v283HoreiKpGZXgap9O7tgQ/exec';
+
 
     let payload = { type: type };
 
@@ -1165,10 +1166,26 @@ function removeUploadedFile() {
     submitBtn.textContent = 'SUBMITTING...';
     submitBtn.disabled = true;
 
+        const fileInput = document.getElementById('verification-id');
+    if (type === 'worker' && fileInput && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        payload.idFile     = e.target.result.split(',')[1];
+        payload.idFileName = file.name;
+        payload.idFileType = file.type;
+        sendPayload(url, payload, card, type, submitBtn);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      sendPayload(url, payload, card, type, submitBtn);
+    }
+  }
+
+  function sendPayload(url, payload, card, type, submitBtn) {
     fetch(url, {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
     .then(() => {
